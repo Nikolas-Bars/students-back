@@ -31,6 +31,9 @@ app.get('/', (req, res) => {
     res.json('Hi mf')
 })
 
+
+
+
 app.get('/courses', (req: Request, res: Response) => {
     let foundedCourses = db.courses
     if(req.query.title) {
@@ -41,9 +44,15 @@ app.get('/courses', (req: Request, res: Response) => {
 })
 
 app.put('/courses', (req: Request,res:Response) => {
-    db = db.courses.map((el) => {
-        return el.id === req.body.id ? {...el, title: req.body.title} : el
-    })
+    if (db.courses.find((el) => el.id === +req.body.id)) {
+        db.courses = db.courses.map((el) => {
+            return el.id === +req.body.id ? {...el, title: req.body.title} : el
+        })
+        res.json(db)
+    } else {
+        res.send(HTTP_STATUSE.NO_CONTENT_204)
+    }
+
 })
 
 app.listen(port, () => {
