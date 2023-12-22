@@ -17,6 +17,8 @@ const HTTP_STATUSE = {
     NOT_FOUND_404: 404
 }
 
+type CourseType = {id: number, title: string}
+
 let db = {
     courses:
         [
@@ -25,7 +27,7 @@ let db = {
             {id: 3, title: 'qa'},
             {id: 4, title: 'dev'}
         ]
-} as any
+} as {courses: CourseType[]}
 
 app.get('/', (req, res) => {
     res.json('Hi mf')
@@ -46,7 +48,7 @@ app.get('/courses', (req: Request, res: Response) => {
 app.put('/courses', (req: Request,res:Response) => {
     if (db.courses.find((el) => el.id === +req.body.id)) {
         db.courses = db.courses.map((el) => {
-            return el.id === +req.body.id ? {...el, title: req.body.title} : el
+            return el.id === +req.body.id ? { ...el, title: req.body.title as string} : el
         })
         res.json(db)
     } else {
