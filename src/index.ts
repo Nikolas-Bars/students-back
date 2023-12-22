@@ -33,9 +33,6 @@ app.get('/', (req, res) => {
     res.json('Hi mf')
 })
 
-
-
-
 app.get('/courses', (req: Request, res: Response) => {
     let foundedCourses = db.courses
     if(req.query.title) {
@@ -55,6 +52,11 @@ app.put('/courses', (req: Request,res:Response) => {
         res.send(HTTP_STATUSE.NO_CONTENT_204)
     }
 
+})
+
+app.delete('/courses/:id', (req: Request, res: Response)=> {
+    db.courses = db.courses.filter((el) => el.id !== +req.params.id)
+    res.json(db.courses)
 })
 
 app.listen(port, () => {
