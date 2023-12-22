@@ -59,6 +59,17 @@ app.delete('/courses/:id', (req: Request, res: Response)=> {
     res.json(db.courses)
 })
 
+app.post('/courses', (req: Request, res: Response) => {
+    const newId = db.courses[db.courses.length - 1].id + 1
+    if (req.body.title) {
+        db.courses.push({id: newId, title: req.body.title})
+        res.json(db.courses)
+    } else {
+        res.send(HTTP_STATUSE.NO_CONTENT_204)
+    }
+
+})
+
 app.listen(port, () => {
     console.log('hey epta')
 })
