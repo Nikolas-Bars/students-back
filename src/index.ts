@@ -17,7 +17,7 @@ const HTTP_STATUSE = {
     NOT_FOUND_404: 404
 }
 
-const db = {
+let db = {
     courses:
         [
             {id: 1, title: 'front-end'},
@@ -25,7 +25,7 @@ const db = {
             {id: 3, title: 'qa'},
             {id: 4, title: 'dev'}
         ]
-}
+} as any
 
 app.get('/', (req, res) => {
     res.json('Hi mf')
@@ -38,6 +38,12 @@ app.get('/courses', (req: Request, res: Response) => {
     }
 
     res.json(foundedCourses)
+})
+
+app.put('/courses', (req: Request,res:Response) => {
+    db = db.courses.map((el) => {
+        return el.id === req.body.id ? {...el, title: req.body.title} : el
+    })
 })
 
 app.listen(port, () => {
