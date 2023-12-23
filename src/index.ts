@@ -42,6 +42,15 @@ app.get('/courses', (req: Request, res: Response) => {
     res.json(foundedCourses)
 })
 
+app.get('/courses/:id', (req: Request, res: Response) => {
+    const foundedCourse = db.courses.find((el) => el.id === +req.params.id)
+    if (foundedCourse) {
+        res.status(HTTP_STATUSE.OK_200).json(foundedCourse)
+    } else {
+        res.status(HTTP_STATUSE.NO_CONTENT_204)
+    }
+})
+
 app.put('/courses', (req: Request,res:Response) => {
     if (db.courses.find((el) => el.id === +req.body.id)) {
         db.courses = db.courses.map((el) => {
@@ -63,7 +72,7 @@ app.post('/courses', (req: Request, res: Response) => {
     const newId = db.courses[db.courses.length - 1].id + 1
     if (req.body.title) {
         db.courses.push({id: newId, title: req.body.title})
-        res.json(db.courses)
+        res.status(HTTP_STATUSE.OK_200).send(db.courses)
     } else {
         res.send(HTTP_STATUSE.NO_CONTENT_204)
     }
