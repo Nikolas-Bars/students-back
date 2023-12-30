@@ -1,7 +1,7 @@
 import request from 'supertest'
-import {app} from "../../src";
 import {response} from "express";
 import {CourseCreateModel} from "../../src/models/CourseCreateModel";
+import {app} from "../../src/app";
 
 describe('/course', () => {
     // вызываем эндпоинт который зачистит стартовые данные
@@ -54,7 +54,7 @@ describe('/course', () => {
     //let updatedCourse: any = null
 
     it('should be updated', async () => {
-        const data = {title: 'fuflo', id: createdCourse.id}
+        const data = {title: 'HP', id: createdCourse.id}
         const response = await request(app)
             .put('/courses')
             .send(data)
@@ -63,10 +63,31 @@ describe('/course', () => {
         createdCourse = response.body
 
         expect(createdCourse).toEqual({
-            title: 'fuflo',
+            title: 'HP',
             id:  expect.any(Number)
         })
     })
 
+    it('should get course by id', async () => {
+        const response = await request(app)
+            .get('/courses/5')
+            .expect(200)
+        const receivedCourse = response.body
 
+        expect(receivedCourse).toEqual({
+            title: 'EU',
+            id:  expect.any(Number)
+        })
+    })
+    it('should be delete course by id', async () => {
+        const response = await request(app)
+            .delete('/courses/3')
+            .expect(200)
+
+        const receivedCourse = response.body
+
+        expect(receivedCourse).toEqual([
+            {id: 5, title: 'EU'}
+        ])
+    })
 })
