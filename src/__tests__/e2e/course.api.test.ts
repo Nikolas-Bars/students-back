@@ -1,7 +1,7 @@
 import request from 'supertest'
 import {response} from "express";
-import {CourseCreateModel} from "../../src/models/CourseCreateModel";
-import {app} from "../../src/app";
+import {CourseCreateModel} from "../../models/CourseCreateModel";
+import {app} from "../../app";
 
 describe('/course', () => {
     // вызываем эндпоинт который зачистит стартовые данные
