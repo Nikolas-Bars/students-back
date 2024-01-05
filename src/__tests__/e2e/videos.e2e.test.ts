@@ -2,6 +2,7 @@ import request from 'supertest'
 import {response} from "express";
 import {CourseCreateModel} from "../../models/CourseCreateModel";
 import {app} from "../../app";
+import {VideosType} from "../../db/videos_db";
 
 describe('/videos', () => {
     // вызываем эндпоинт который зачистит стартовые данные
@@ -16,6 +17,8 @@ describe('/videos', () => {
             .expect(200, [])
     })
 
+    let createdVideo = {} as VideosType;
+
     it('should be create and return new videos object', async () => {
 
         const newVideo = {
@@ -26,7 +29,7 @@ describe('/videos', () => {
 
         const response = await request(app).post('/videos').send(newVideo).expect(200)
 
-        const createdVideo = response.body
+        createdVideo = response.body
 
         expect(createdVideo).toEqual({
             id: 1,
@@ -38,5 +41,19 @@ describe('/videos', () => {
             publicationDate: expect.any(String),
             availableResolutions: ["P144"]
         })
+    })
+
+    it('should be get video by id', async () => {
+        const response = await request(app)
+            .get('/videos/' + createdVideo.id)
+            .expect(200)
+
+        expect(response.body).toEqual(response.body)
+    })
+
+    it('should be delete video by id', async () => {await request(app)
+            .delete('/videos/' + createdVideo.id)
+            .expect(204)
+
     })
 })

@@ -52,7 +52,37 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
         if(error.errorsMessages.length) {
             res.status(400).json(error)
         } else {
+            videos_db.push(newVideos)
             res.json(newVideos)
+        }
+    })
+
+    videosRouter.get('/:id', (req: Request, res: Response)=> {
+
+        const foundedVideos = videos_db.find((el) => {
+            return el.id === +req.params.id
+        })
+
+        console.log(foundedVideos, 'foundedVideos2')
+
+        if (foundedVideos) {
+            res.json(foundedVideos)
+        } else {
+            res.sendStatus(404)
+        }
+    })
+
+    videosRouter.delete('/:id', (req: Request, res: Response)=> {
+
+        const foundedVideos = videos_db.find((el) => {
+            return el.id === +req.params.id
+        })
+
+        if (foundedVideos) {
+            videos_db = videos_db.filter((el) => el.id !== +req.params.id)
+            res.sendStatus(204)
+        } else {
+            res.sendStatus(404)
         }
     })
 
