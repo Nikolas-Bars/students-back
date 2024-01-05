@@ -20,19 +20,22 @@ describe('/videos', () => {
 
         const newVideo = {
             title: 'Новое супер видео',
-            author: '',
+            author: 'Крутой перец',
             availableResolutions: ["P144"]
         }
 
-        await request(app).post('/videos').send(newVideo).expect(400,
-            {
+        const response = await request(app).post('/videos').send(newVideo).expect(200)
+
+        const createdVideo = response.body
+
+        expect(createdVideo).toEqual({
             id: 1,
             title: 'Новое супер видео',
             author: 'Крутой перец',
             canBeDownloaded: false,
             minAgeRestriction: null,
-            createdAt: 'string',
-            publicationDate: 'string',
+            createdAt: expect.any(String),
+            publicationDate: expect.any(String),
             availableResolutions: ["P144"]
         })
     })

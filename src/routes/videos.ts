@@ -28,8 +28,8 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
             author: '',
             canBeDownloaded: false,
             minAgeRestriction: null,
-            createdAt: 'string',
-            publicationDate: 'string',
+            createdAt: new Date().toISOString(),
+            publicationDate: new Date().toISOString(),
             availableResolutions: []
         }
 
