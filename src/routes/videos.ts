@@ -63,8 +63,6 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
             return el.id === +req.params.id
         })
 
-        console.log(foundedVideos, 'foundedVideos2')
-
         if (foundedVideos) {
             res.json(foundedVideos)
         } else {
