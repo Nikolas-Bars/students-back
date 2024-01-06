@@ -31,7 +31,11 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
             canBeDownloaded: false,
             minAgeRestriction: null,
             createdAt: new Date().toISOString(),
-            publicationDate: new Date().toISOString(),
+            publicationDate: (() => {
+                const date = new Date();
+                date.setDate(date.getDate() + 1);
+                return date.toISOString();
+            })(),
             availableResolutions: [] as string[]
         }
 
@@ -40,7 +44,7 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
         } else {
             newVideos.title = req.body.title
         }
-        if (!req.body.author || !req.body.author.trim().length) {
+        if (!req.body.author || !req.body.author.trim().length || req.body.author.trim().length > 20) {
             error.errorsMessages.push({message: 'incorrect author value', field: 'author'})
         } else {
             newVideos.author = req.body.author
@@ -60,6 +64,7 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
         if(error.errorsMessages.length) {
             res.status(400).json(error)
         } else {
+            console.log(newVideos, 'newVideos')
             videos_db.push(newVideos)
             res.status(201).json(newVideos)
         }
@@ -114,7 +119,7 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
                 }
             }
             if (typeof req.body.minAgeRestriction !== "undefined") {
-                if (typeof req.body.minAgeRestriction === "number") {
+                if (typeof req.body.minAgeRestriction === "number" ||req.body.minAgeRestriction === null || (req.body.minAgeRestriction >= 1 && req.body.minAgeRestriction <= 18)) {
                     console.log(6)
                     video.minAgeRestriction = req.body.minAgeRestriction
                 } else {
