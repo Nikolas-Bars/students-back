@@ -64,7 +64,6 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
         if(error.errorsMessages.length) {
             res.status(400).json(error)
         } else {
-            console.log(newVideos, 'newVideos')
             videos_db.push(newVideos)
             res.status(201).json(newVideos)
         }
@@ -103,15 +102,11 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
             errorsMessages: [] as ErrorType[]
         } as { errorsMessages: ErrorType[] }
 
-        console.log(1)
         const video = videos_db.find((v) => {
             return v.id === +req.params.id
         })
-        console.log(2)
         if (video) {
-            console.log(3)
             if (typeof req.body.title !== "undefined") {
-                console.log(5)
                 if (typeof req.body.title === "string" && req.body.title.trim().length && req.body.title.trim().length < 40) {
                     video.title = req.body.title
                 } else {
@@ -119,8 +114,7 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
                 }
             }
             if (typeof req.body.minAgeRestriction !== "undefined") {
-                if (typeof req.body.minAgeRestriction === "number" ||req.body.minAgeRestriction === null || (req.body.minAgeRestriction >= 1 && req.body.minAgeRestriction <= 18)) {
-                    console.log(6)
+                if (typeof req.body.minAgeRestriction === "number" && (req.body.minAgeRestriction >= 1 && req.body.minAgeRestriction <= 18)) {
                     video.minAgeRestriction = req.body.minAgeRestriction
                 } else {
                     error.errorsMessages.push({message: 'incorrect minAgeRestriction value', field: 'minAgeRestriction'})
@@ -142,7 +136,6 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
             }
 
             if(typeof req.body.publicationDate !== "undefined") {
-                console.log(7)
                 const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
                 const isValidFormat = regex.test(req.body.publicationDate);
 
@@ -169,7 +162,6 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
                     error.errorsMessages.push({message: 'incorrect availableResolutions value', field: 'availableResolutions'})
                 }
             }
-            console.log(22222)
             if(error.errorsMessages.length) {
                 res.status(400).json(error)
             } else {
