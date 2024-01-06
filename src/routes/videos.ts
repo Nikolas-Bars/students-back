@@ -159,13 +159,13 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
                 }
             }
         } else {
-            res.sendStatus(204)
+            res.sendStatus(404)
         }
 
         if(error.errorsMessages.length) {
             res.status(400).json(error)
         } else {
-            res.json(video)
+            res.status(204)
         }
     })
 
