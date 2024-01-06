@@ -103,21 +103,21 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
         })
 
         if (video) {
-            if (req.body.title) {
-                if (typeof req.body.title === "string" && req.body.title.trim().length) {
+            if (typeof req.body.title !== "undefined") {
+                if (typeof req.body.title === "string" && req.body.title.trim().length > 1) {
                     video.title = req.body.title
                 } else {
                     error.errorsMessages.push({message: 'incorrect title value', field: 'title'})
                 }
             }
-            if (req.body.minAgeRestriction) {
+            if (typeof req.body.minAgeRestriction !== "undefined") {
                 if (typeof req.body.minAgeRestriction === "number") {
                     video.minAgeRestriction = req.body.minAgeRestriction
                 } else {
                     error.errorsMessages.push({message: 'incorrect minAgeRestriction value', field: 'minAgeRestriction'})
                 }
             }
-            if (req.body.author) {
+            if (typeof req.body.author !== "undefined") {
                 if (typeof req.body.author === "string" && req.body.author.trim().length) {
                     video.author = req.body.author
                 } else {
@@ -125,7 +125,7 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
                 }
             }
 
-            if (req.body.canBeDownloaded) {
+            if (typeof req.body.canBeDownloaded !== "undefined") {
                 if (typeof req.body.author === "boolean") {
                     video.canBeDownloaded = req.body.canBeDownloaded
                 } else {
@@ -133,7 +133,7 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
                 }
             }
 
-            if(req.body.publicationDate) {
+            if(typeof req.body.publicationDate !== "undefined") {
                 const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
                 const isValidFormat = regex.test(req.body.publicationDate);
 
@@ -144,7 +144,7 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
                 }
             }
 
-            if (req.body.availableResolutions) {
+            if (typeof req.body.availableResolutions !== "undefined") {
                 if (Array.isArray(req.body.availableResolutions)) {
                     const resol = [] as string[]
                     req.body.availableResolutions.forEach((el: string) => {
@@ -159,10 +159,12 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
                     error.errorsMessages.push({message: 'incorrect availableResolutions value', field: 'availableResolutions'})
                 }
             }
+        } else {
+            res.sendStatus(404)
         }
 
         if(error.errorsMessages.length) {
-            res.json(error)
+            res.status(400).json(error)
         } else {
             res.json(video)
         }
