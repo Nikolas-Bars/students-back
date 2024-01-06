@@ -124,9 +124,8 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
                     error.errorsMessages.push({message: 'incorrect author value', field: 'author'})
                 }
             }
-
             if (typeof req.body.canBeDownloaded !== "undefined") {
-                if (typeof req.body.author === "boolean") {
+                if (typeof req.body.canBeDownloaded === "boolean") {
                     video.canBeDownloaded = req.body.canBeDownloaded
                 } else {
                     error.errorsMessages.push({message: 'incorrect canBeDownloaded value', field: 'canBeDownloaded'})
