@@ -98,12 +98,15 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
             errorsMessages: [] as ErrorType[]
         } as { errorsMessages: ErrorType[] }
 
+        console.log(1)
         const video = videos_db.find((v) => {
             return v.id === +req.params.id
         })
-
+        console.log(2)
         if (video) {
+            console.log(3)
             if (typeof req.body.title !== "undefined") {
+                console.log(5)
                 if (typeof req.body.title === "string" && req.body.title.trim().length && req.body.title.trim().length < 40) {
                     video.title = req.body.title
                 } else {
@@ -112,6 +115,7 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
             }
             if (typeof req.body.minAgeRestriction !== "undefined") {
                 if (typeof req.body.minAgeRestriction === "number") {
+                    console.log(6)
                     video.minAgeRestriction = req.body.minAgeRestriction
                 } else {
                     error.errorsMessages.push({message: 'incorrect minAgeRestriction value', field: 'minAgeRestriction'})
@@ -133,6 +137,7 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
             }
 
             if(typeof req.body.publicationDate !== "undefined") {
+                console.log(7)
                 const regex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
                 const isValidFormat = regex.test(req.body.publicationDate);
 
@@ -158,14 +163,14 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
                     error.errorsMessages.push({message: 'incorrect availableResolutions value', field: 'availableResolutions'})
                 }
             }
+            console.log(22222)
+            if(error.errorsMessages.length) {
+                res.status(400).json(error)
+            } else {
+                res.sendStatus(204)
+            }
         } else {
             res.sendStatus(404)
-        }
-
-        if(error.errorsMessages.length) {
-            res.status(400).json(error)
-        } else {
-            res.status(204)
         }
     })
 

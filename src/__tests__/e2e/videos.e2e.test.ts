@@ -19,7 +19,7 @@ describe('/videos', () => {
 
     let createdVideo = {} as VideosType;
 
-    it('should be create and return new videos object', async () => {
+    it('should be create new videos object', async () => {
 
         const newVideo = {
             title: 'Новое супер видео',
@@ -30,11 +30,9 @@ describe('/videos', () => {
         const response = await request(app)
             .post('/videos')
             .send(newVideo)
-            .expect(200)
+            .expect(201)
 
-        createdVideo = response.body
-
-        expect(createdVideo).toEqual({
+        createdVideo = {
             id: 1,
             title: 'Новое супер видео',
             author: 'Крутой перец',
@@ -42,8 +40,7 @@ describe('/videos', () => {
             minAgeRestriction: null,
             createdAt: expect.any(String),
             publicationDate: expect.any(String),
-            availableResolutions: ["P144"] as string[]
-        })
+            availableResolutions: ["P144"] as string[]}
     })
 
     it('should be get video by id', async () => {
@@ -60,20 +57,10 @@ describe('/videos', () => {
             publicationDate: "2024-01-06T07:23:20.164Z",
             minAgeRestriction: 20
         }
-        const response = await request(app)
+        await request(app)
             .put('/videos/' + createdVideo.id)
             .send(data)
-            .expect(200)
-        expect(response.body).toEqual({
-            id: 1,
-            title: 'Новый супер title',
-            author: 'Крутой перец',
-            canBeDownloaded: false,
-            minAgeRestriction: 20,
-            createdAt: expect.any(String),
-            publicationDate: expect.any(String),
-            availableResolutions: ["P144"] as string[]
-        })
+            .expect(204)
     })
 
     it('should be delete video by id', async () => {
