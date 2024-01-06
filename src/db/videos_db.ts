@@ -8,13 +8,13 @@ export type VideosType = {
     minAgeRestriction: number | null,
     createdAt: string,
     publicationDate: string,
-    availableResolutions: any[]
+    availableResolutions: string[]
 }
 
 export const videos_db =
         [
             {
-                id: 0,
+                id: 1,
                 title: 'string',
                 author: 'string',
                 canBeDownloaded: false,

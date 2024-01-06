@@ -22,6 +22,5 @@ export const getTestVideoRouter =(db: VideosType[] )=> {
         db.length = 0
         res.sendStatus(HTTP_STATUSE.NO_CONTENT_204)
     })
-    console.log(db, 'db')
     return testRouter
 }

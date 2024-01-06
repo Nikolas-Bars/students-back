@@ -39,7 +39,7 @@ describe('/videos', () => {
             minAgeRestriction: null,
             createdAt: expect.any(String),
             publicationDate: expect.any(String),
-            availableResolutions: ["P144"]
+            availableResolutions: ["P144"] as string[]
         })
     })
 
@@ -51,9 +51,53 @@ describe('/videos', () => {
         expect(response.body).toEqual(response.body)
     })
 
-    it('should be delete video by id', async () => {await request(app)
+    it('should be update video by id', async () => {
+        const data = {
+            title: 'Новый супер title',
+            publicationDate: "2024-01-06T07:23:20.164Z",
+            minAgeRestriction: 20
+        }
+        const response = await request(app)
+            .put('/videos/' + createdVideo.id)
+            .send(data)
+            .expect(200)
+        expect(response.body).toEqual({
+            id: 1,
+            title: 'Новый супер title',
+            author: 'Крутой перец',
+            canBeDownloaded: false,
+            minAgeRestriction: 20,
+            createdAt: expect.any(String),
+            publicationDate: expect.any(String),
+            availableResolutions: ["P144"] as string[]
+        })
+    })
+
+    it('should be delete video by id', async () => {
+        await request(app)
             .delete('/videos/' + createdVideo.id)
             .expect(204)
 
     })
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

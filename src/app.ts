@@ -14,7 +14,7 @@ export const JsonMiddleWare = express.json()
 app.use(JsonMiddleWare)
 
 app.get('/', (req, res) => {
-    res.json('Hi mf')
+    res.json('Hello friend!!! How are you bro?')
 })
 
 const coursesRouter = getCoursesRoutes(db)
