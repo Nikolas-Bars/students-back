@@ -121,7 +121,7 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
                 }
             }
             if (typeof req.body.author !== "undefined") {
-                if (typeof req.body.author === "string" && req.body.author.trim().length) {
+                if (typeof req.body.author === "string" && req.body.author.trim().length && req.body.author.trim().length < 20) {
                     video.author = req.body.author
                 } else {
                     error.errorsMessages.push({message: 'incorrect author value', field: 'author'})
