@@ -55,7 +55,7 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
                 if (AvailableResolutions.includes(el)) {
                     newVideos.availableResolutions.push(el)
                 } else {
-                    newVideos.availableResolutions = []
+                    error.errorsMessages.push({message: 'incorrect availableResolutions value', field: 'availableResolutions'})
                     return
                 }
             })
@@ -161,6 +161,7 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
                             resol.push(el)
                             if(req.body.availableResolutions.length === resol.length) video.availableResolutions = resol
                         } else {
+                            error.errorsMessages.push({message: 'incorrect availableResolutions value', field: 'availableResolutions'})
                             return
                         }
                     })
