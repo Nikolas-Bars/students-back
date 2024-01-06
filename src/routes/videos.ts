@@ -35,7 +35,7 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
             availableResolutions: [] as string[]
         }
 
-        if (!req.body.title || !req.body.title.trim().length) {
+        if (!req.body.title || !req.body.title.trim().length || req.body.title.trim().length > 40) {
             error.errorsMessages.push({message: 'incorrect title value', field: 'title'})
         } else {
             newVideos.title = req.body.title
@@ -61,7 +61,7 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
             res.status(400).json(error)
         } else {
             videos_db.push(newVideos)
-            res.json(newVideos)
+            res.status(201).json(newVideos)
         }
     })
 
@@ -104,7 +104,7 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
 
         if (video) {
             if (typeof req.body.title !== "undefined") {
-                if (typeof req.body.title === "string" && req.body.title.trim().length > 1) {
+                if (typeof req.body.title === "string" && req.body.title.trim().length && req.body.title.trim().length < 40) {
                     video.title = req.body.title
                 } else {
                     error.errorsMessages.push({message: 'incorrect title value', field: 'title'})
@@ -160,7 +160,7 @@ export const getVideosRoutes =(videos_db: VideosType[])=> {
                 }
             }
         } else {
-            res.sendStatus(404)
+            res.sendStatus(204)
         }
 
         if(error.errorsMessages.length) {

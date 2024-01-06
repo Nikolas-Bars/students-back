@@ -27,7 +27,10 @@ describe('/videos', () => {
             availableResolutions: ["P144"]
         }
 
-        const response = await request(app).post('/videos').send(newVideo).expect(200)
+        const response = await request(app)
+            .post('/videos')
+            .send(newVideo)
+            .expect(200)
 
         createdVideo = response.body
 
