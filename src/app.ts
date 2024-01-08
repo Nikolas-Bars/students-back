@@ -6,6 +6,8 @@ import {db} from "./db/db";
 import {videos_db} from "./db/videos_db";
 import {getBooksRouter} from "./routes/books";
 import {getVideosRoutes} from "./routes/videos";
+import {productsRouter} from "./routes/products";
+import {productDb} from "./db/productDb";
 
 export const app = express()
 
@@ -19,6 +21,8 @@ app.get('/', (req, res) => {
 
 const coursesRouter = getCoursesRoutes(db)
 
+const productRouter = productsRouter(productDb)
+
 const videosRouter = getVideosRoutes(videos_db)
 
 const testRouter = getTestRouter(db)
@@ -26,6 +30,8 @@ const testRouter = getTestRouter(db)
 const testVideoRouter = getTestVideoRouter(videos_db)
 
 const bookRouter = getBooksRouter(db)
+
+app.use("/products", productRouter)
 
 app.use("/courses", coursesRouter)
 
